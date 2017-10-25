@@ -6,10 +6,19 @@ class PicturesController < ApplicationController
   end
 
   def create_row
-    render("pic_templates/added_row.html.erb")
+    new_pic = params["the_source"]
+    new_caption = params["the_caption"]
+    
+    Photo.create(
+      :source => new_pic,
+      :caption => new_caption
+      )
+    
+    redirect_to("/photos")
   end
   
   def index
+    @all_photos = Photo.all
     render("pic_templates/list_of_all.html.erb")
   end
 
