@@ -9,10 +9,11 @@ class PicturesController < ApplicationController
     new_pic = params["the_source"]
     new_caption = params["the_caption"]
     
-    Photo.create(
-      :source => new_pic,
-      :caption => new_caption
-      )
+    i = Photo.new
+    i.source=new_pic
+    i.caption=new_caption
+    i.save
+    
     
     redirect_to("/photos")
   end
@@ -24,10 +25,9 @@ class PicturesController < ApplicationController
 
   def show
     
-    photo_id = params["the_id"]
-    @the_caption = Photo.find(photo_id)["caption"]
-  
-    @the_image_url = Photo.find(photo_id)["source"]
+    @photo_id = params["the_id"]
+    @the_caption = Photo.find(@photo_id)["caption"]
+    @the_image_url = Photo.find(@photo_id)["source"]
     
     ##include ActionView::Helpers::DateHelper
     #@time_since_create = time_ago_in_words(Photo.find(photo_id)["created_at"])
@@ -36,15 +36,28 @@ class PicturesController < ApplicationController
   end
 
   def edit_form
-    render("pic_templates/edited_row.html.erb")
+    @photo_id = params["the_id"]
+    @original_url = Photo.find(@photo_id)["source"].to_s
+    @original_caption = Photo.find(@photo_id)["caption"]
+    
+    render("pic_templates/edit_row.html.erb")
   end
 
   def update_row
-    render("pic_templates/updated_row.html.erb")
+    
+    @photo_id = params["the_id"]
+    i = Photo.find(@photo_id)
+    i.source= params["the_source"]
+    i.caption= params["the_caption"]
+    i.save
+    
+    redirect_to("/photos/" + @photo_id)
   end
   
   def destroy_row
-    render("pic_templates/deleted_row.html.erb")
+    photo_id = params["the_id"]
+    Photo.find(photo_id).destroy
+    redirect_to("/photos")
   end
   
 end

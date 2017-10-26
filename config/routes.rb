@@ -8,11 +8,11 @@ Rails.application.routes.draw do
   get("/photos/:the_id", { :controller => "pictures", :action => "show" })
 
   # UPDATE
-  get("/photos/:an_id/edit", { :controller => "pictures", :action => "edit_form" })
-  get("/update_photo/:some_id", { :controller => "pictures", :action => "update_row" })
+  get("/photos/:the_id/edit", { :controller => "pictures", :action => "edit_form" })
+  get("/update_photo/:the_id", { :controller => "pictures", :action => "update_row" })
 
   # DELETE
-  get("/delete_photo/:toast_id", { :controller => "pictures", :action => "destroy_row" })
+  get("/delete_photo/:the_id", { :controller => "pictures", :action => "destroy_row" })
   
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
